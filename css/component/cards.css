@@ -11,8 +11,6 @@
   padding: 160px 0px 260px 0px;
 }
 
-
-
 /* 카드 컨텐츠 영역 + 타이틀 포함*/
 .section-cards .cards-container {
   display: flex;
@@ -20,8 +18,6 @@
   width: 100%;
   padding: 0 4vw;
 }
-
-
 
 .card-wrapper {
   display: flex;
@@ -45,8 +41,6 @@
   object-fit: cover;
 }
 
-
-
 /* ===== 카드/프레임 공통 스타일 ===== */
 .card-frame,
 .card {
@@ -67,18 +61,18 @@
   /* flex-grow: 1; */
   opacity: 0;
   transform: translateY(40px);
-  transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1), transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transition: opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
 }
 
 .card-frame:hover,
 .card:hover {
   outline: 1px solid rgba(180, 199, 246, 0.781);
   transform: translateY(-4px);
-  box-shadow: 0px 32px 48px rgba(22, 20, 33, 0.6), 0px 8px 24px rgba(98, 140, 245, 0.15);
+  box-shadow: 0px 32px 48px rgba(22, 20, 33, 0.6),
+    0px 8px 24px rgba(98, 140, 245, 0.15);
   transition: transform 0.3s ease;
-
 }
-
 
 .card-main-solution,
 .card-main-service,
@@ -93,7 +87,6 @@
   width: 100%;
   box-sizing: border-box;
 }
-
 
 /* .card-solution-contents {
   min-width: 312px;
@@ -116,8 +109,6 @@
   max-width: 464px;
 }
 
-
-
 picture img {
   width: 100%;
   height: auto;
@@ -128,7 +119,6 @@ picture {
   display: block;
   width: 100%;
 }
-
 
 /* .section-series .picture-wrapper {
   display: flex;
@@ -162,7 +152,8 @@ picture {
 
 .card-txt-group .subtit {
   border-radius: 12px;
-  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)), rgba(32, 29, 48, 0.74);
+  background: linear-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 0)),
+    rgba(32, 29, 48, 0.74);
   border: 0.7px solid rgba(180, 199, 246, 0.17);
   display: flex;
   flex-direction: row;
@@ -171,7 +162,6 @@ picture {
   padding: 6px 10px;
   width: fit-content;
 }
-
 
 .card-txt-group .product-name {
   margin: 2px 0;
@@ -202,13 +192,9 @@ picture {
   padding: 48px 32px 24px;
 }
 
-
 .card-solution-series .card-txt-group .des {
   margin-top: 24px;
 }
-
-
-
 
 .card-solution-feature .des {
   color: rgba(255, 255, 255, 0.8);
@@ -230,8 +216,7 @@ picture {
   margin-bottom: 24px;
 }
 
-
-/* ===== 카드 화살표 링크 아이콘 (공통) ===== */
+/* ===== 카드 화살표 link icon (공통) ===== */
 .card-asset-area {
   display: flex;
   align-items: center;
@@ -271,7 +256,6 @@ picture {
   background-color: rgba(62, 58, 88, 0.74);
 }
 
-
 .card-asset-area .icon-ellipse .card-asset-area-icon {
   width: 40px;
   height: 40px;
@@ -287,22 +271,15 @@ picture {
   height: 160px;
 }
 
-
-
-
-
-
 /* ===== 카드별 개별 스타일 ===== */
 
 /* card-solution-contents */
-
 
 /* .card.card-solution-contents {
   width: 952px;
   height: 467px;
   background-color: #161421;
 } */
-
 
 .card.card-solution-contents {
   /* width: 952px; */
@@ -320,10 +297,6 @@ picture {
   height: auto;
 }
  */
-
-
-
-
 
 /* card-main-solution */
 .card.card-main-solution {
@@ -366,7 +339,6 @@ picture {
   /* font-size: 16px; */
 }
 
-
 .card-main-news .top {
   align-self: stretch;
   display: flex;
@@ -395,14 +367,10 @@ picture {
   text-align: left;
 }
 
-.card.card-company .des ul>li>h6 {
+.card.card-company .des ul > li > h6 {
   text-align: left;
   color: rgba(255, 255, 255, 0.486);
-
 }
-
-
-
 
 /* card-solution-number */
 .card.card-solution-number {
@@ -418,7 +386,6 @@ picture {
   gap: 0px;
   text-align: left;
 }
-
 
 .card-solution-number .card-number {
   display: flex;
@@ -446,8 +413,6 @@ picture {
   gap: 10px;
 }
 
-
-
 /* card-solution-feature */
 .card.card-solution-feature {
   width: 420px;
@@ -462,8 +427,6 @@ picture {
   text-align: left;
   /* font-size: 24px; */
 }
-
-
 
 /* card-solution-series */
 .card.card-solution-series {
@@ -510,9 +473,6 @@ picture {
   display: block;
 }
 
-
-
-
 /* ========== section-certificate 반응형 스타일 ========== */
 
 /* section-certificate 컨테이너 (section-cards 기준으로 통일) */
@@ -554,8 +514,6 @@ picture {
   justify-content: center;
   gap: 24px;
 }
-
-
 
 /* card-certificate */
 .card.card-certificate {
@@ -643,8 +601,6 @@ picture {
   margin-bottom: 16px;
 }
 
-
-
 /* 버튼 아이콘 */
 .card.card-certificate .prev-area-icon {
   width: 88px;
@@ -663,11 +619,6 @@ picture {
   justify-content: flex-start;
   gap: 8px;
 }
-
-
-
-
-
 
 /* ===== 반응형 스타일 ===== */
 
@@ -705,8 +656,6 @@ picture {
     gap: 90px;
     padding: 90px 0px;
   }
-
-
 }
 
 @media (max-width: 1200px) {
@@ -757,11 +706,7 @@ picture {
   }
 }
 
-
-
-
 @media (max-width: 1024px) {
-
   .section-cards {
     gap: 80px;
     padding: 80px 0px;
@@ -795,9 +740,7 @@ picture {
     right: 0;
     padding: 18px;
   }
-
 }
-
 
 @media (max-width: 1000px) {
   .section-cards {
@@ -813,10 +756,7 @@ picture {
   }
 }
 
-
 @media (max-width: 780px) {
-
-
   .section-cards {
     gap: 60px;
     padding: 60px 0px;
@@ -901,7 +841,6 @@ picture {
     margin-bottom: 8px;
   }
 
-
   .card-solution-number .aseet-contents {
     gap: 10px;
   }
@@ -910,7 +849,6 @@ picture {
   .card.card-solution-feature {
     height: 320px;
   }
-
 
   /* card-solution-series */
   .card.card-solution-series {
@@ -970,10 +908,7 @@ picture {
     height: 96px;
     margin-bottom: 10px;
   }
-
-
 }
-
 
 @media (max-width: 600px) {
   .card.card-solution-contents {
@@ -1089,14 +1024,10 @@ picture {
     padding: 16px;
   }
 
-
-
   .card-solution-number .card-number {
     padding: 32px;
   }
-
 }
-
 
 @media (max-width: 360px) {
   .card.card-solution-contents {
@@ -1164,13 +1095,6 @@ picture {
     height: 240px;
   }
 }
-
-
-
-
-
-
-
 
 /* ===== 카드 및 프레임 공통 효과/애니메이션 유지 ===== */
 .card.show,

@@ -12,19 +12,21 @@ async function loadCertificateSwiperLibrary() {
   try {
     // 기존 스크립트 태그가 있는지 확인
     if (!document.querySelector('script[src*="swiper-bundle.min.js"]')) {
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js';
+      const script = document.createElement("script");
+      script.src =
+        "https://cdnjs.cloudflare.com/ajax/libs/Swiper/11.0.5/swiper-bundle.min.js";
       script.async = true;
-      script.crossOrigin = 'anonymous';
-      
+      script.crossOrigin = "anonymous";
+
       // 헤드에 스크립트 추가
       document.head.appendChild(script);
 
       // 스크립트 로딩 완료까지 대기
       await new Promise((resolve, reject) => {
         script.onload = resolve;
-        script.onerror = () => reject(new Error('Swiper 스크립트 로딩 실패'));
-        
+        script.onerror = () =>
+          reject(new Error("Failed to load Swiper script"));
+
         // 이미 로드되어 있을 경우를 위한 타이머
         setTimeout(() => {
           if (window.Swiper) resolve();
@@ -37,13 +39,12 @@ async function loadCertificateSwiperLibrary() {
       if (window.Swiper) {
         return window.Swiper;
       }
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    throw new Error('Swiper 로딩 타임아웃');
-
+    throw new Error("Swiper loading timeout");
   } catch (error) {
-    console.error('[CertificateSwiper] 라이브러리 로딩 실패:', error);
+    console.error("[CertificateSwiper] Library loading failed:", error);
     return null;
   }
 }
@@ -58,13 +59,13 @@ async function initCertificateSwiper() {
     }
 
     // DOM 요소 확인
-    const swiperElement = document.querySelector('.certificate-swiper');
+    const swiperElement = document.querySelector(".certificate-swiper");
     if (!swiperElement) {
       return false;
     }
 
     // 슬라이드 요소 확인
-    const slides = swiperElement.querySelectorAll('.swiper-slide');
+    const slides = swiperElement.querySelectorAll(".swiper-slide");
     if (slides.length === 0) {
       return false;
     }
@@ -75,11 +76,11 @@ async function initCertificateSwiper() {
     }
 
     // Certificate Swiper 초기화
-    const certificateSwiper = new SwiperClass('.certificate-swiper', {
-      effect: 'coverflow',
+    const certificateSwiper = new SwiperClass(".certificate-swiper", {
+      effect: "coverflow",
       grabCursor: true,
       centeredSlides: true,
-      slidesPerView: 'auto',
+      slidesPerView: "auto",
       loop: false,
       coverflowEffect: {
         rotate: 50,
@@ -93,12 +94,12 @@ async function initCertificateSwiper() {
       spaceBetween: 30,
       slidesPerGroup: 1,
       pagination: {
-        el: '.certificate-swiper .swiper-pagination',
+        el: ".certificate-swiper .swiper-pagination",
         clickable: true,
       },
       navigation: {
-        nextEl: '.certificate-swiper .swiper-button-next',
-        prevEl: '.certificate-swiper .swiper-button-prev',
+        nextEl: ".certificate-swiper .swiper-button-next",
+        prevEl: ".certificate-swiper .swiper-button-prev",
       },
       keyboard: {
         enabled: true,
@@ -107,33 +108,39 @@ async function initCertificateSwiper() {
 
     // 버튼 상태 업데이트 함수
     const updateButtonStates = () => {
-      const nextBtn = document.querySelector('.certificate-swiper .swiper-button-next');
-      const prevBtn = document.querySelector('.certificate-swiper .swiper-button-prev');
+      const nextBtn = document.querySelector(
+        ".certificate-swiper .swiper-button-next"
+      );
+      const prevBtn = document.querySelector(
+        ".certificate-swiper .swiper-button-prev"
+      );
       const currentIndex = certificateSwiper.activeIndex;
       const totalSlides = certificateSwiper.slides.length;
 
       // 버튼 상태 업데이트
       if (prevBtn) {
-        prevBtn.classList.toggle('swiper-button-disabled', currentIndex === 0);
+        prevBtn.classList.toggle("swiper-button-disabled", currentIndex === 0);
       }
       if (nextBtn) {
-        nextBtn.classList.toggle('swiper-button-disabled', currentIndex === totalSlides - 1);
+        nextBtn.classList.toggle(
+          "swiper-button-disabled",
+          currentIndex === totalSlides - 1
+        );
       }
     };
 
     // 슬라이드 변경 이벤트
-    certificateSwiper.on('slideChange', updateButtonStates);
+    certificateSwiper.on("slideChange", updateButtonStates);
 
     // 초기 버튼 상태 설정
     updateButtonStates();
 
     // 전역 접근을 위해 저장
     window.certificateSwiperInstance = certificateSwiper;
-    
-    return true;
 
+    return true;
   } catch (error) {
-    console.error('[CertificateSwiper] 초기화 실패:', error);
+    console.error("[CertificateSwiper] Initialization failed:", error);
     return false;
   }
 }
@@ -153,33 +160,39 @@ async function safeCertificateSwiperInit(retries = 3) {
 }
 
 // 이벤트 리스너 설정
-if (typeof document !== 'undefined') {
+if (typeof document !== "undefined") {
   // DOM 로드 완료 시
-  document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener("DOMContentLoaded", () => {
     setTimeout(safeCertificateSwiperInit, 500);
   });
 
   // 페이지 완전 로드 완료 시
-  window.addEventListener('load', () => {
+  window.addEventListener("load", () => {
     setTimeout(() => {
-      if (document.querySelector('.certificate-swiper') && !window.certificateSwiperInstance) {
+      if (
+        document.querySelector(".certificate-swiper") &&
+        !window.certificateSwiperInstance
+      ) {
         safeCertificateSwiperInit();
       }
     }, 500);
   });
 
   // 탭 컨텐츠 로드 시
-  document.addEventListener('tabContentLoaded', (event) => {
+  document.addEventListener("tabContentLoaded", (event) => {
     const { contentPath } = event.detail || {};
-    if (contentPath && contentPath.includes('solution-')) {
+    if (contentPath && contentPath.includes("solution-")) {
       setTimeout(safeCertificateSwiperInit, 300);
     }
   });
 
   // 모든 컴포넌트 로드 완료 시
-  document.addEventListener('allComponentsLoaded', () => {
+  document.addEventListener("allComponentsLoaded", () => {
     setTimeout(() => {
-      if (document.querySelector('.certificate-swiper') && !window.certificateSwiperInstance) {
+      if (
+        document.querySelector(".certificate-swiper") &&
+        !window.certificateSwiperInstance
+      ) {
         safeCertificateSwiperInit();
       }
     }, 500);
@@ -187,22 +200,30 @@ if (typeof document !== 'undefined') {
 }
 
 // 전역 함수로 노출
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   window.initCertificateSwiper = initCertificateSwiper;
   window.safeCertificateSwiperInit = safeCertificateSwiperInit;
-  
+
   // 디버깅 함수들
   window.forceCertificateSwiper = () => safeCertificateSwiperInit();
-  
+
   window.checkCertificateSwiper = () => {
     const instance = window.certificateSwiperInstance;
     if (instance) {
-      console.log('[CertificateSwiper] 현재:', instance.activeIndex + 1, '/', instance.slides.length);
-      console.log('[CertificateSwiper] Loop:', instance.params.loop);
-      console.log('[CertificateSwiper] 첫번째:', instance.activeIndex === 0);
-      console.log('[CertificateSwiper] 마지막:', instance.activeIndex === instance.slides.length - 1);
+      console.log(
+        "[CertificateSwiper] 현재:",
+        instance.activeIndex + 1,
+        "/",
+        instance.slides.length
+      );
+      console.log("[CertificateSwiper] Loop:", instance.params.loop);
+      console.log("[CertificateSwiper] 첫번째:", instance.activeIndex === 0);
+      console.log(
+        "[CertificateSwiper] 마지막:",
+        instance.activeIndex === instance.slides.length - 1
+      );
     } else {
-      console.log('[CertificateSwiper] 인스턴스 없음');
+      console.log("[CertificateSwiper] 인스턴스 없음");
     }
   };
 
@@ -215,9 +236,11 @@ if (typeof window !== 'undefined') {
           const currentIndex = instance.activeIndex;
           if (currentIndex < totalSlides - 1) {
             instance.slideNext();
-            console.log(`[Test] ${i + 1}번째 Next - 현재: ${instance.activeIndex + 1}번`);
+            console.log(
+              `[Test] ${i + 1}th Next - Current: ${instance.activeIndex + 1}`
+            );
           } else {
-            console.log('[Test] 마지막 슬라이드에서 멈춤 확인');
+            console.log("[Test] Check if the last slide is stopped");
           }
         }, i * 800);
       }
@@ -225,4 +248,4 @@ if (typeof window !== 'undefined') {
   };
 }
 
-console.log('[CertificateSwiper] 모듈 로드 완료');
+console.log("[CertificateSwiper] module loaded successfully");

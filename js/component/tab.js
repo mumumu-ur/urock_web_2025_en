@@ -9,10 +9,7 @@ import { toRelativePath } from "../global/utils.js";
 
 function createTabComponent(containerId, config) {
   if (!config || !Array.isArray(config.mainTabs)) {
-    console.error(
-      "[Tab] createTabComponent에 유효하지 않은 config가 전달됨:",
-      config
-    );
+    console.error("[Tab] invalid config passed to createTabComponent:", config);
     return;
   }
 
@@ -25,7 +22,7 @@ function createTabComponent(containerId, config) {
 
   // 중복 초기화 방지
   if (container.dataset.tabInitialized === "true") {
-    console.log(`[Tab] ${containerId}는 이미 초기화됨, 건너뛰기`);
+    console.log(`[Tab] ${containerId} already initialized, skipping`);
     return;
   }
   container.dataset.tabInitialized = "true";
@@ -35,9 +32,9 @@ function createTabComponent(containerId, config) {
     !container.querySelector(".tab-main") ||
     container.innerHTML.trim() === ""
   ) {
-    console.log("[Tab] 기본 구조가 없어서 임시 구조 생성");
+    console.log("[Tab] no basic structure found, creating temporary structure");
     // 최소한의 임시 구조만 생성 (initializeTabHTML에서 완전한 구조로 교체됨)
-    container.innerHTML = '<div class="tab-placeholder">탭 로딩 중...</div>';
+    container.innerHTML = '<div class="tab-placeholder">Loading...</div>';
   }
 
   // 기본 설정 사용 (config가 없을 경우)
@@ -90,7 +87,7 @@ function createTabComponent(containerId, config) {
       // isActive가 true인 서브탭이 없으면 첫 번째 서브탭을 기본값으로 설정
       activeSubTab = config.subTabs[activeMainTab][0].id;
       console.log(
-        `[Tab] ${activeMainTab} 탭의 기본 서브탭으로 ${activeSubTab} 설정`
+        `[Tab] setting ${activeMainTab} tab's default subtab to ${activeSubTab}`
       );
     }
   }
@@ -267,7 +264,7 @@ function createTabComponent(containerId, config) {
     }
 
     console.log(
-      `[Tab] 반응형 컨텐츠 높이 조정: ${finalHeight}px (화면폭: ${screenWidth}px, 컨텐츠: ${contentHeight}px, 최소: ${minHeight}px)`
+      `[Tab] responsive content height adjustment: ${finalHeight}px (screen width: ${screenWidth}px, content: ${contentHeight}px, minimum: ${minHeight}px)`
     );
   }
 
@@ -298,7 +295,7 @@ function createTabComponent(containerId, config) {
   // 컨텐츠 경로 매핑
   function getContentPath() {
     console.log(
-      `[Tab] 경로 매핑 시도: activeMainTab=${activeMainTab}, activeSubTab=${activeSubTab}`
+      `[Tab] path mapping attempt: activeMainTab=${activeMainTab}, activeSubTab=${activeSubTab}`
     );
     const isDev = !window.location.href.includes("urock_homepage_bucket");
     // 각 메인 탭별 경로 매핑
@@ -370,18 +367,18 @@ function createTabComponent(containerId, config) {
         break;
 
       default:
-        console.warn(`[Tab] 알 수 없는 메인 탭: ${activeMainTab}`);
+        console.warn(`[Tab] unknown main tab: ${activeMainTab}`);
         contentPath = "";
     }
 
-    console.log(`[Tab] 매핑된 경로: ${contentPath}`);
+    console.log(`[Tab] mapped path: ${contentPath}`);
     return contentPath;
   }
 
   // 컨텐츠 업데이트 함수
   function updateContent() {
     if (!selectedTabContent) {
-      console.error("[Tab] selectedTabContent가 없습니다");
+      console.error("[Tab] selectedTabContent not found");
       return;
     }
 
@@ -389,15 +386,14 @@ function createTabComponent(containerId, config) {
       `.tab-main a[data-tab="${activeMainTab}"]`
     );
     if (!mainTabElement) {
-      console.error(`[Tab] 메인 탭 요소를 찾을 수 없습니다: ${activeMainTab}`);
+      console.error(`[Tab] main tab element not found: ${activeMainTab}`);
       return;
     }
 
     const mainTabText = mainTabElement.querySelector(".tab-text").textContent;
 
     // 로딩 표시
-    selectedTabContent.innerHTML =
-      '<div class="loading">컨텐츠 로딩 중...</div>';
+    selectedTabContent.innerHTML = '<div class="loading">Loading...</div>';
     adjustTabContentHeight();
 
     const contentPath = getContentPath();
@@ -405,8 +401,8 @@ function createTabComponent(containerId, config) {
     if (!contentPath) {
       selectedTabContent.innerHTML = `
         <div class="tab-content-body">
-          <p>선택한 탭에 해당하는 컨텐츠를 찾을 수 없습니다.</p>
-          <p>현재 탭: ${activeMainTab} ${
+          <p>Content not found for the selected tab.</p>
+          <p>Current tab: ${activeMainTab} ${
         activeSubTab ? "/ " + activeSubTab : ""
       }</p>
         </div>
@@ -427,7 +423,7 @@ function createTabComponent(containerId, config) {
         if (!html.trim()) {
           selectedTabContent.innerHTML = `
             <div class="tab-content-body">
-              <p>컨텐츠를 준비 중입니다.</p>
+              <p>Preparing content...</p>
             </div>
           `;
         } else {
@@ -483,15 +479,15 @@ function createTabComponent(containerId, config) {
             );
 
             // 모바일 메뉴 재초기화 (Detail 페이지 로드 시) - 개선된 방식
-            console.log("🔄 탭 컨텐츠 로드 완료, 모바일 메뉴 재초기화 시작");
+            console.log("🔄 tab content loaded, reinitializing mobile menu");
 
             // 약간의 지연을 두고 확실하게 재초기화
             setTimeout(() => {
               if (typeof window.reInitMobileMenu === "function") {
-                console.log("📱 모바일 메뉴 재초기화 호출");
+                console.log("📱 reinitializing mobile menu");
                 window.reInitMobileMenu();
               } else {
-                console.warn("❌ reInitMobileMenu 함수를 찾을 수 없음");
+                console.warn("❌ reInitMobileMenu function not found");
               }
             }, 200);
 
@@ -501,7 +497,7 @@ function createTabComponent(containerId, config) {
                 ".mobile-drawer-menu .menu-link.has-submenu"
               );
               console.log(
-                `🔍 추가 검증 - 서브메뉴 링크: ${hasSubmenuLinks.length}개`
+                `🔍 additional verification - submenu links: ${hasSubmenuLinks.length}`
               );
 
               if (
@@ -514,7 +510,9 @@ function createTabComponent(containerId, config) {
                   testLink.onclick || testLink.addEventListener;
 
                 if (!hasClickHandler) {
-                  console.log("🔧 이벤트 리스너가 없음, 추가 재초기화 실행");
+                  console.log(
+                    "🔧 event listener not found, additional reinitialization"
+                  );
                   window.reInitMobileMenu();
                 }
               }
@@ -523,17 +521,19 @@ function createTabComponent(containerId, config) {
             // Swiper 초기화 (교육 서비스 페이지인 경우)
             if (contentPath && contentPath.includes("service-03-education")) {
               if (typeof window.safeInitSwiper === "function") {
-                console.log("[Tab] 안전한 Swiper 갤러리 초기화 시작");
+                console.log("[Tab] safe Swiper gallery initialization started");
                 setTimeout(async () => {
                   await window.safeInitSwiper();
                 }, 100);
               } else if (typeof window.initSwiperGallery === "function") {
-                console.log("[Tab] 기본 Swiper 갤러리 초기화 시작");
+                console.log(
+                  "[Tab] basic Swiper gallery initialization started"
+                );
                 setTimeout(async () => {
                   await window.initSwiperGallery();
                 }, 100);
               } else {
-                console.warn("[Tab] Swiper 초기화 함수를 찾을 수 없습니다");
+                console.warn("[Tab] Swiper initialization function not found");
               }
             }
 
@@ -549,15 +549,15 @@ function createTabComponent(containerId, config) {
           }, 500);
         });
 
-        console.log(`[Tab] ${contentPath} 컨텐츠 로드 완료`);
+        console.log(`[Tab] ${contentPath} content loaded`);
       })
       .catch((error) => {
-        console.error(`[Tab] 컨텐츠 로드 실패: ${error.message}`);
+        console.error(`[Tab] content load failed: ${error.message}`);
         selectedTabContent.innerHTML = `
           <div class="tab-content-body">
-            <p>컨텐츠를 불러오는 중 오류가 발생했습니다.</p>
-            <p>경로: ${contentPath}</p>
-            <p>오류: ${error.message}</p>
+            <p>An error occurred while loading the content.</p>
+            <p>Path: ${contentPath}</p>
+            <p>Error: ${error.message}</p>
           </div>
         `;
         setTimeout(adjustTabContentHeight, 100);
@@ -597,7 +597,7 @@ function createTabComponent(containerId, config) {
               firstSubTabLink.classList.add("active");
               activeSubTab = firstSubTabLink.getAttribute("data-subtab");
               console.log(
-                `[Tab] ${activeMainTab} 탭의 첫 번째 서브탭 자동 활성화: ${activeSubTab}`
+                `[Tab] automatically activating the first subtab of the ${activeMainTab} tab: ${activeSubTab}`
               );
             }
           }
@@ -673,21 +673,21 @@ window.reInitTabComponent = function (
 };
 
 // 초기화는 componentManager에서 통합 관리하므로 개별 이벤트 리스너 제거
-console.log("[Tab] 탭 컴포넌트 스크립트 로드 완료");
+console.log("[Tab] tab component script loaded");
 
 // 즉시 실행 탭 초기화 함수 (개선된 버전)
 function immediateTabInit() {
-  console.log("[Tab] 즉시 실행 탭 초기화 시작");
+  console.log("[Tab] immediate tab initialization started");
 
   const tabContainer = document.getElementById("tab-container");
   if (!tabContainer) {
-    console.log("[Tab] tab-container가 아직 없음, 지연 실행 대기");
+    console.log("[Tab] tab-container not found, waiting for delay execution");
     return false;
   }
 
   // 이미 초기화되었는지 확인
   if (tabContainer.dataset.tabInitialized === "true") {
-    console.log("[Tab] 이미 초기화된 탭 컨테이너, 건너뛰기");
+    console.log("[Tab] already initialized tab container, skipping");
     return true;
   }
 
@@ -703,17 +703,17 @@ function immediateTabInit() {
       mainTabs: [
         {
           id: "inquiry",
-          text: "문의하기",
+          text: "Contact us",
           isActive: activeMainTab === "inquiry",
         },
         { id: "news", text: "유락소식", isActive: activeMainTab === "news" },
       ],
       subTabs: {
         news: [
-          { id: "news", text: "UROCK소식", isActive: true },
-          { id: "business", text: "사업", isActive: false },
+          { id: "news", text: "UROCK News", isActive: true },
+          { id: "business", text: "Business", isActive: false },
           { id: "education", text: "교육", isActive: false },
-          { id: "exhibition", text: "전시회", isActive: false },
+          { id: "exhibition", text: "Exhibition", isActive: false },
           { id: "notice", text: "공지사항", isActive: false },
         ],
       },
@@ -800,17 +800,17 @@ function immediateTabInit() {
       mainTabs: [
         {
           id: "analysis",
-          text: "포렌식 분석 서비스",
+          text: "Forensic Analysis Service",
           isActive: activeMainTab === "analysis",
         },
         {
           id: "authentication",
-          text: "국제 표준화 인증",
+          text: "International Standardization Certification",
           isActive: activeMainTab === "authentication",
         },
         {
           id: "education",
-          text: "포렌식 교육",
+          text: "Forensic Education",
           isActive: activeMainTab === "education",
         },
       ],
@@ -822,10 +822,10 @@ function immediateTabInit() {
   if (config) {
     try {
       createTabComponent("tab-container", config);
-      console.log("[Tab] 즉시 실행 탭 컴포넌트 생성 성공");
+      console.log("[Tab] immediate tab component creation successful");
       return true;
     } catch (error) {
-      console.error("[Tab] 즉시 실행 탭 컴포넌트 생성 실패:", error);
+      console.error("[Tab] immediate tab component creation failed:", error);
       return false;
     }
   }
@@ -841,19 +841,21 @@ function multipleAttemptInit() {
 
   const attemptInit = () => {
     attempts++;
-    console.log(`[Tab] 탭 초기화 시도 ${attempts}/${maxAttempts}`);
+    console.log(`[Tab] tab initialization attempt ${attempts}/${maxAttempts}`);
 
     if (immediateTabInit()) {
-      console.log("[Tab] 탭 초기화 성공!");
+      console.log("[Tab] tab initialization successful!");
       return;
     }
 
     if (attempts < maxAttempts) {
       const delay = baseDelay * attempts; // 점진적 지연
-      console.log(`[Tab] ${delay}ms 후 재시도...`);
+      console.log(`[Tab] retrying in ${delay}ms...`);
       setTimeout(attemptInit, delay);
     } else {
-      console.error("[Tab] 최대 시도 횟수 초과, 탭 초기화 포기");
+      console.error(
+        "[Tab] maximum attempt count exceeded, tab initialization failed"
+      );
     }
   };
 
@@ -861,21 +863,23 @@ function multipleAttemptInit() {
 }
 
 // 스크립트 로드 즉시 실행
-console.log("[Tab] 탭 스크립트 로드됨, 즉시 초기화 시도");
+console.log("[Tab] tab script loaded, immediate initialization attempt");
 if (!immediateTabInit()) {
-  console.log("[Tab] 즉시 초기화 실패, 다중 시도 모드 실행");
+  console.log(
+    "[Tab] immediate initialization failed, running multiple attempt mode"
+  );
   multipleAttemptInit();
 }
 
 // DOMContentLoaded 백업 초기화
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("[Tab] DOMContentLoaded 백업 초기화");
+  console.log("[Tab] DOMContentLoaded backup initialization");
   setTimeout(() => {
     if (
       !document.getElementById("tab-container") ||
       document.getElementById("tab-container").dataset.tabInitialized !== "true"
     ) {
-      console.log("[Tab] DOMContentLoaded에서 백업 초기화 실행");
+      console.log("[Tab] running backup initialization from DOMContentLoaded");
       multipleAttemptInit();
     }
   }, 100);
@@ -883,13 +887,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 // 모든 컴포넌트 로드 완료 시 백업 초기화
 document.addEventListener("allComponentsLoaded", function () {
-  console.log("[Tab] allComponentsLoaded 최종 백업 초기화");
+  console.log("[Tab] allComponentsLoaded final backup initialization");
   setTimeout(() => {
     if (
       !document.getElementById("tab-container") ||
       document.getElementById("tab-container").dataset.tabInitialized !== "true"
     ) {
-      console.log("[Tab] allComponentsLoaded에서 최종 백업 초기화 실행");
+      console.log(
+        "[Tab] running final backup initialization from allComponentsLoaded"
+      );
       immediateTabInit();
     }
   }, 200);

@@ -6,14 +6,14 @@
  * 현재 날짜를 YYYY-MM-DD 형식으로 반환
  */
 export function formatDate(date = new Date()) {
-  return date.toISOString().split('T')[0];
+  return date.toISOString().split("T")[0];
 }
 
 /**
  * 숫자에 콤마 추가
  */
 export function addComma(num) {
-  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 /**
@@ -37,12 +37,12 @@ export function debounce(func, wait) {
 export function getQueryParams() {
   const params = {};
   const queryString = window.location.search.substring(1);
-  const queries = queryString.split('&');
+  const queries = queryString.split("&");
 
-  queries.forEach(query => {
-    const [key, value] = query.split('=');
+  queries.forEach((query) => {
+    const [key, value] = query.split("=");
     if (key) {
-      params[decodeURIComponent(key)] = decodeURIComponent(value || '');
+      params[decodeURIComponent(key)] = decodeURIComponent(value || "");
     }
   });
 
@@ -56,19 +56,22 @@ export function getQueryParams() {
  */
 export function toRelativePath(absPath) {
   // 이미 상대 경로인 경우 그대로 반환
-  if (!absPath.startsWith('/')) {
+  if (!absPath.startsWith("/")) {
     return absPath;
   }
 
   // 현재 페이지의 경로 분석
   const currentPath = window.location.pathname;
-  
+
   // 현재 경로의 깊이 계산 (더 정확한 방법)
   let depth = 0;
-  if (currentPath !== '/' && currentPath !== '/index.html') {
-    const pathParts = currentPath.split('/').filter(part => part.length > 0);
+  if (currentPath !== "/" && currentPath !== "/index.html") {
+    const pathParts = currentPath.split("/").filter((part) => part.length > 0);
     // 마지막이 .html 파일이면 그것을 제외하고 계산
-    if (pathParts.length > 0 && pathParts[pathParts.length - 1].includes('.html')) {
+    if (
+      pathParts.length > 0 &&
+      pathParts[pathParts.length - 1].includes(".html")
+    ) {
       depth = pathParts.length - 1;
     } else {
       depth = pathParts.length;
@@ -76,11 +79,13 @@ export function toRelativePath(absPath) {
   }
 
   // 상대 경로 생성
-  const relativePrefix = depth > 0 ? '../'.repeat(depth) : './';
-  const relativePath = relativePrefix + absPath.replace(/^\//, '');
-  
-  console.log(`[Utils] 경로 변환: ${absPath} → ${relativePath} (깊이: ${depth}, 현재: ${currentPath})`);
-  
+  const relativePrefix = depth > 0 ? "../".repeat(depth) : "./";
+  const relativePath = relativePrefix + absPath.replace(/^\//, "");
+
+  console.log(
+    `[Utils] path conversion: ${absPath} → ${relativePath} (depth: ${depth}, current: ${currentPath})`
+  );
+
   return relativePath;
 }
 
@@ -91,27 +96,27 @@ export function toRelativePath(absPath) {
  */
 export function normalizePath(path) {
   // 이미 절대 경로인 경우
-  if (path.startsWith('/')) {
+  if (path.startsWith("/")) {
     return path;
   }
-  
+
   // 현재 페이지의 디렉토리 경로
   const currentPath = window.location.pathname;
-  const currentDir = currentPath.substring(0, currentPath.lastIndexOf('/') + 1);
-  
+  const currentDir = currentPath.substring(0, currentPath.lastIndexOf("/") + 1);
+
   // 상대 경로를 절대 경로로 변환
   let absolutePath = currentDir + path;
-  
+
   // 경로 정규화
-  absolutePath = absolutePath.replace(/\/\.\//g, '/'); // ./를 제거
-  
+  absolutePath = absolutePath.replace(/\/\.\//g, "/"); // ./를 제거
+
   // ../를 처리
-  while (absolutePath.includes('../')) {
-    absolutePath = absolutePath.replace(/\/[^\/]+\/\.\.\//g, '/');
+  while (absolutePath.includes("../")) {
+    absolutePath = absolutePath.replace(/\/[^\/]+\/\.\.\//g, "/");
   }
-  
+
   // 중복 슬래시 제거
-  absolutePath = absolutePath.replace(/\/+/g, '/');
-  
+  absolutePath = absolutePath.replace(/\/+/g, "/");
+
   return absolutePath;
 }

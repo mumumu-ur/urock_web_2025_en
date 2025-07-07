@@ -295,12 +295,12 @@
 .hero .thumbnail .item .tit {
   position: absolute;
   top: 49px;
-  left: 16px;
+  left: 12px;
+  font-size: 12px;
   letter-spacing: -0.04em;
   display: flex;
   align-items: center;
   width: 178px;
-  font-size: 14px;
   color: #fff;
   font-family: var(--font-h6-family);
   font-weight: var(--font-h6-weight);
@@ -680,12 +680,6 @@
     top: 16px;
     left: 14px;
     font-size: 14px;
-  }
-
-  .hero .thumbnail .item .tit {
-    top: 44px;
-    left: 14px;
-    font-size: 16px;
   }
 
   .hero .thumbnail .item .icon-expansion {

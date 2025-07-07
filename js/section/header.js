@@ -25,7 +25,7 @@ function initHeaderComponent() {
       fabBtn.style.display = "none";
     }
   } else {
-    console.log("[FAB] FAB 버튼을 찾을 수 없습니다.");
+    console.log("[FAB] FAB button not found");
   }
   // 메뉴 포커스/활성화 처리
   setupMenuActivation();
@@ -99,11 +99,11 @@ function setActiveMenuByCurrentPage() {
 
 // 언어 선택 드롭다운 설정 (새로운 드롭다운 메뉴)
 function setupLanguageDropdown() {
-  console.log("🌐 언어 드롭다운 초기화 시작");
+  console.log("[LanguageDropdown] language dropdown initialization started");
 
   // 이벤트 델리게이션 방식으로 변경 (페이지 전환에 안전)
   if (window.languageDropdownInitialized) {
-    console.log("🌐 언어 드롭다운이 이미 초기화됨");
+    console.log("[LanguageDropdown] language dropdown already initialized");
     return;
   }
 
@@ -117,21 +117,21 @@ function setupLanguageDropdown() {
 
     if (languageSelector && dropdown) {
       event.stopPropagation();
-      console.log("🌐 언어 아이콘 클릭됨");
+      console.log("[LanguageDropdown] language icon clicked");
 
       const isDropdownVisible = dropdown.classList.contains("show-dropdown");
 
       // 토글
       if (isDropdownVisible) {
         dropdown.classList.remove("show-dropdown");
-        console.log("🌐 드롭다운 숨김");
+        console.log("[LanguageDropdown] dropdown hidden");
         if (window.languageDropdownTimer) {
           clearTimeout(window.languageDropdownTimer);
           window.languageDropdownTimer = null;
         }
       } else {
         dropdown.classList.add("show-dropdown");
-        console.log("🌐 드롭다운 표시");
+        console.log("[LanguageDropdown] dropdown shown");
         if (window.languageDropdownTimer) {
           clearTimeout(window.languageDropdownTimer);
           window.languageDropdownTimer = null;
@@ -139,7 +139,9 @@ function setupLanguageDropdown() {
         // 5초 후 자동 닫힘
         window.languageDropdownTimer = setTimeout(() => {
           dropdown.classList.remove("show-dropdown");
-          console.log("🌐 드롭다운 자동 닫힘 (5초 경과)");
+          console.log(
+            "[LanguageDropdown] dropdown automatically closed (5 seconds elapsed)"
+          );
           window.languageDropdownTimer = null;
         }, 5000);
       }
@@ -152,7 +154,7 @@ function setupLanguageDropdown() {
       event.stopPropagation();
       const lang = languageOption.getAttribute("data-lang");
       const url = languageOption.getAttribute("data-url");
-      console.log("🌐 언어 선택:", lang, "URL:", url);
+      console.log("[LanguageDropdown] language selected:", lang, "URL:", url);
 
       // 드롭다운 닫기
       const dropdownForClose = document.querySelector(
@@ -168,7 +170,7 @@ function setupLanguageDropdown() {
 
       // 페이지 이동
       if (url) {
-        console.log("🌐 페이지 이동:", url);
+        console.log("[LanguageDropdown] page navigation:", url);
         window.location.href = url;
       }
       return;
@@ -185,7 +187,7 @@ function setupLanguageDropdown() {
       const languageArea = document.querySelector("header .language");
       if (!languageArea || !languageArea.contains(event.target)) {
         dropdownForOutsideClick.classList.remove("show-dropdown");
-        console.log("🌐 외부 클릭으로 드롭다운 닫힘");
+        console.log("[LanguageDropdown] dropdown closed by outside click");
         if (window.languageDropdownTimer) {
           clearTimeout(window.languageDropdownTimer);
           window.languageDropdownTimer = null;
@@ -196,7 +198,7 @@ function setupLanguageDropdown() {
 
   // 초기화 완료 표시
   window.languageDropdownInitialized = true;
-  console.log("🌐 언어 드롭다운 초기화 완료 (새로운 드롭다운 메뉴)");
+  console.log("[LanguageDropdown] language dropdown initialization completed");
 }
 
 // 모바일 메뉴 설정 (중복 제거 및 최적화)
@@ -208,7 +210,7 @@ function setupMobileMenu() {
   const drawerMenu = document.querySelector(".mobile-drawer-menu");
 
   if (!menuBtn || !drawer || !overlay || !closeBtn || !drawerMenu) {
-    console.log("모바일 메뉴 요소를 찾을 수 없음:", {
+    console.log("[MobileMenu] mobile menu elements not found:", {
       menuBtn: !!menuBtn,
       drawer: !!drawer,
       overlay: !!overlay,
@@ -232,7 +234,7 @@ function setupMobileMenu() {
         }
       });
     } catch (e) {
-      console.warn("이전 이벤트 핸들러 제거 실패:", e);
+      console.warn("[MobileMenu] previous event handler removal failed:", e);
     }
   }
 
@@ -254,7 +256,7 @@ function setupMobileMenu() {
     parent.replaceChild(newLink, link);
   });
 
-  console.log("모바일 메뉴 설정 시작 - 새로운 방식");
+  console.log("[MobileMenu] mobile menu setup started - new approach");
 
   // 드로워 열기/닫기
   function openDrawer() {
@@ -384,11 +386,11 @@ function setupMobileMenu() {
   const menuLinks = document.querySelectorAll(
     ".mobile-drawer-menu .menu-link.has-submenu"
   );
-  console.log(`발견된 서브메뉴 링크 수: ${menuLinks.length}`);
+  console.log(`[MobileMenu] found submenu links: ${menuLinks.length}`);
 
   menuLinks.forEach((link, index) => {
     console.log(
-      `서브메뉴 링크 ${
+      `[MobileMenu] submenu link ${
         index + 1
       }: ${link.textContent.trim()}, data-target: ${link.getAttribute(
         "data-target"
@@ -428,29 +430,32 @@ function setupMobileMenu() {
 
   // 초기화 완료 표시
   drawer.dataset.mobileMenuInitialized = "true";
-  console.log("모바일 메뉴 설정 완료");
+  console.log("[MobileMenu] mobile menu setup completed");
 }
 
 // 초기화 방식 (로딩 상태에 따라)
 function initHeaderSafely() {
-  console.log("Header 초기화 시작, DOM 상태:", document.readyState);
+  console.log(
+    "[Header] header initialization started, DOM state:",
+    document.readyState
+  );
 
   // DOM이 완전히 로드될 때까지 기다림
   if (document.readyState === "loading") {
-    console.log("DOM 로딩 중, DOMContentLoaded 이벤트 대기");
+    console.log("[Header] DOM loading, waiting for DOMContentLoaded event");
     document.addEventListener("DOMContentLoaded", () => {
-      console.log("DOMContentLoaded 이벤트 발생");
+      console.log("[Header] DOMContentLoaded event triggered");
       setTimeout(initHeaderComponent, 100);
     });
   } else {
-    console.log("DOM 이미 로드됨, 즉시 초기화");
+    console.log("[Header] DOM already loaded, immediate initialization");
     setTimeout(initHeaderComponent, 100);
   }
 }
 
 // include.js가 완료된 후에도 호출되도록
 window.addEventListener("load", () => {
-  console.log("🌐 Window load 이벤트 발생, header 재초기화");
+  console.log("[Header] window load event triggered, header reinitialization");
 
   // 완전한 페이지 로드 후 모바일 메뉴 강제 재초기화
   setTimeout(() => {
@@ -459,16 +464,18 @@ window.addEventListener("load", () => {
       ".mobile-drawer-menu .menu-link.has-submenu"
     );
 
-    console.log(`🔍 Window load 검사:
-      - 드로워: ${drawer ? "✅" : "❌"}
-      - 서브메뉴 링크: ${hasSubmenuLinks.length}개`);
+    console.log(`[Header] window load check:
+      - drawer: ${drawer ? "✅" : "❌"}
+      - submenu links: ${hasSubmenuLinks.length} links`);
 
     if (drawer && hasSubmenuLinks.length > 0) {
       // 초기화 플래그 리셋
       drawer.dataset.mobileMenuInitialized = "false";
       delete drawer.dataset.mobileMenuHandlers;
 
-      console.log("🔄 Window load에서 모바일 메뉴 재초기화 시작");
+      console.log(
+        "[Header] mobile menu reinitialization started from window load"
+      );
 
       // 확실한 재초기화를 위해 여러 단계로 시도
       const delays = [100, 300, 600];
@@ -476,7 +483,9 @@ window.addEventListener("load", () => {
       delays.forEach((delay, index) => {
         setTimeout(() => {
           console.log(
-            `🔧 재초기화 단계 ${index + 1}/${delays.length} (${delay}ms 지연)`
+            `[Header] reinitialization step ${index + 1}/${
+              delays.length
+            } (${delay}ms delay)`
           );
 
           if (typeof window.reInitMobileMenu === "function") {
@@ -491,23 +500,25 @@ window.addEventListener("load", () => {
               );
               const firstSubmenu = finalCheck[0];
 
-              console.log(`🏁 최종 검증:
-                - 서브메뉴 링크: ${finalCheck.length}개
-                - 첫 번째 링크: ${
-                  firstSubmenu ? firstSubmenu.textContent.trim() : "없음"
+              console.log(`[Header] final verification:
+                - submenu links: ${finalCheck.length}
+                - first link: ${
+                  firstSubmenu ? firstSubmenu.textContent.trim() : "none"
                 }
-                - 초기화 상태: ${drawer.dataset.mobileMenuInitialized}`);
+                - initialization state: ${
+                  drawer.dataset.mobileMenuInitialized
+                }`);
 
               // 실제 클릭 테스트
               if (firstSubmenu) {
-                console.log("🧪 실제 클릭 이벤트 테스트 준비 완료");
+                console.log("[Header] actual click event test ready");
               }
             }, 200);
           }
         }, delay);
       });
     } else {
-      console.warn("⚠️  Window load: 모바일 메뉴 요소를 찾을 수 없음");
+      console.warn("[Header] window load: mobile menu elements not found");
     }
   }, 500);
 });
@@ -520,11 +531,11 @@ window.reInitHeaderComponent = initHeaderComponent;
 
 // 모바일 메뉴 강제 재초기화 함수 (include.js 완료 후 사용)
 window.reInitMobileMenu = function () {
-  console.log("🔄 모바일 메뉴 강제 재초기화 시작");
+  console.log("[Header] mobile menu forced reinitialization started");
 
   const drawer = document.querySelector(".mobile-drawer");
   if (!drawer) {
-    console.log("❌ 모바일 드로워를 찾을 수 없음, 재시도...");
+    console.log("[Header] mobile drawer not found, retrying...");
     setTimeout(window.reInitMobileMenu, 100);
     return;
   }
@@ -546,33 +557,35 @@ window.reInitMobileMenu = function () {
   );
   const allLinks = document.querySelectorAll(".mobile-drawer-menu .menu-link");
 
-  console.log(`📊 요소 상태 확인:
-    - 드로워: ${drawer ? "✅" : "❌"}
-    - 서브메뉴 링크: ${menuLinks.length}개
-    - 전체 링크: ${allLinks.length}개
-    - 기본 버튼들: ${allElements.length}개`);
+  console.log(`[Header] element state check:
+    - drawer: ${drawer ? "✅" : "❌"}
+    - submenu links: ${menuLinks.length}
+    - total links: ${allLinks.length}
+    - default buttons: ${allElements.length}`);
 
   if (menuLinks.length === 0) {
-    console.log("⚠️  서브메뉴 링크가 없음, 재시도...");
+    console.log("[Header] no submenu links found, retrying...");
     setTimeout(window.reInitMobileMenu, 100);
     return;
   }
 
   // 약간의 지연 후 setupMobileMenu 호출
   setTimeout(() => {
-    console.log("🚀 setupMobileMenu 재실행");
+    console.log("[Header] setupMobileMenu re-execution");
     setupMobileMenu();
 
     // 초기화 검증
     const newMenuLinks = document.querySelectorAll(
       ".mobile-drawer-menu .menu-link.has-submenu"
     );
-    console.log(`✅ 재초기화 완료 - 서브메뉴 링크: ${newMenuLinks.length}개`);
+    console.log(
+      `[Header] reinitialization complete - submenu links: ${newMenuLinks.length}`
+    );
 
     // 테스트용: 첫 번째 서브메뉴 링크 클릭 테스트
     if (newMenuLinks.length > 0) {
       console.log(
-        `🧪 첫 번째 서브메뉴 테스트: ${newMenuLinks[0].textContent.trim()}`
+        `[Header] first submenu test: ${newMenuLinks[0].textContent.trim()}`
       );
     }
   }, 100);

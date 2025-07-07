@@ -1,8 +1,5 @@
 // 공통 이벤트 핸들러 (ex. window resize, scroll 등)
 
-
-
-
 // 공통 이벤트 리스너 정의 파일
 
 /**
@@ -15,12 +12,12 @@ export function toggleScrollButton(selector, threshold = 100) {
 
   if (!button) return;
 
-  window.addEventListener('scroll', () => {
+  window.addEventListener("scroll", () => {
     // 페이지 Y스크롤 위치가 기준보다 크면 버튼 보이기
     if (window.scrollY > threshold) {
-      button.style.display = 'block';
+      button.style.display = "block";
     } else {
-      button.style.display = 'none';
+      button.style.display = "none";
     }
   });
 }
@@ -30,5 +27,5 @@ export function toggleScrollButton(selector, threshold = 100) {
  * @param {Function} callback - 실행할 함수
  */
 export function onWindowResize(callback) {
-  window.addEventListener('resize', callback);
+  window.addEventListener("resize", callback);
 }

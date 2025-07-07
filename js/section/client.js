@@ -4,23 +4,25 @@
 
 // 클라이언트 섹션 초기화
 function initClientSection() {
-  console.log('[Section] 클라이언트 섹션 초기화');
+  console.log("[Section] client section initialized");
 
   // 클라이언트 섹션 요소 찾기
-  const clientSections = document.querySelectorAll('.client');
+  const clientSections = document.querySelectorAll(".client");
 
-  clientSections.forEach(client => {
+  clientSections.forEach((client) => {
     // 로고 슬라이더 기능
-    const logoWrapper = client.querySelector('.client-logo-wrapper');
+    const logoWrapper = client.querySelector(".client-logo-wrapper");
 
     if (logoWrapper) {
       // 로고 애니메이션 효과 설정
-      const logos = logoWrapper.querySelectorAll('.client-logo-icon:not(.clone)');
+      const logos = logoWrapper.querySelectorAll(
+        ".client-logo-icon:not(.clone)"
+      );
 
       // 로고 복제하여 무한 스크롤 효과 만들기
-      logos.forEach(logo => {
+      logos.forEach((logo) => {
         const clone = logo.cloneNode(true);
-        clone.classList.add('clone');
+        clone.classList.add("clone");
         logoWrapper.appendChild(clone);
       });
 
@@ -28,15 +30,15 @@ function initClientSection() {
       let animationPaused = false;
 
       // 호버 시 애니메이션 일시 정지
-      logoWrapper.addEventListener('mouseenter', () => {
+      logoWrapper.addEventListener("mouseenter", () => {
         animationPaused = true;
-        logoWrapper.style.animationPlayState = 'paused';
+        logoWrapper.style.animationPlayState = "paused";
       });
 
       // 호버 해제 시 애니메이션 재개
-      logoWrapper.addEventListener('mouseleave', () => {
+      logoWrapper.addEventListener("mouseleave", () => {
         animationPaused = false;
-        logoWrapper.style.animationPlayState = 'running';
+        logoWrapper.style.animationPlayState = "running";
       });
 
       // 창 크기에 따른 애니메이션 속도 조절
@@ -54,13 +56,13 @@ function initClientSection() {
       adjustAnimation();
 
       // 창 크기 변경 시 애니메이션 조정
-      window.addEventListener('resize', adjustAnimation);
+      window.addEventListener("resize", adjustAnimation);
     }
   });
 }
 
 // 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', initClientSection);
+document.addEventListener("DOMContentLoaded", initClientSection);
 
 // 외부에서 접근 가능하도록 노출
-window.initClientSection = initClientSection; 
+window.initClientSection = initClientSection;

@@ -4,84 +4,86 @@
 
 // 뉴스 섹션 초기화
 function initNewsSection() {
-  console.log('[Section] 뉴스 섹션 초기화');
+  console.log("[Section] news section initialized");
 
   // 뉴스 섹션 요소 찾기
-  const newsSections = document.querySelectorAll('.news');
+  const newsSections = document.querySelectorAll(".news");
 
-  newsSections.forEach(news => {
+  newsSections.forEach((news) => {
     // 태그 필터 기능
-    const tagButtons = news.querySelectorAll('.tag-container a');
-    const cards = news.querySelectorAll('.card');
+    const tagButtons = news.querySelectorAll(".tag-container a");
+    const cards = news.querySelectorAll(".card");
 
-    tagButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
+    tagButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
         e.preventDefault();
 
         // 모든 버튼 비활성화
-        tagButtons.forEach(btn => {
-          btn.classList.remove('active');
+        tagButtons.forEach((btn) => {
+          btn.classList.remove("active");
         });
 
         // 클릭한 버튼 활성화
-        button.classList.add('active');
+        button.classList.add("active");
 
         // 태그 값 가져오기
-        const tag = button.getAttribute('data-tag');
+        const tag = button.getAttribute("data-tag");
 
         // 카드 필터링
-        cards.forEach(card => {
-          if (tag === 'all') {
-            card.style.display = '';
+        cards.forEach((card) => {
+          if (tag === "all") {
+            card.style.display = "";
           } else {
-            const cardTag = card.getAttribute('data-tag');
-            card.style.display = cardTag === tag ? '' : 'none';
+            const cardTag = card.getAttribute("data-tag");
+            card.style.display = cardTag === tag ? "" : "none";
           }
         });
       });
     });
 
     // 검색 기능
-    const searchForm = news.querySelector('.search-form');
+    const searchForm = news.querySelector(".search-form");
     if (searchForm) {
-      searchForm.addEventListener('submit', (e) => {
+      searchForm.addEventListener("submit", (e) => {
         e.preventDefault();
 
-        const searchInput = searchForm.querySelector('input');
+        const searchInput = searchForm.querySelector("input");
         const searchTerm = searchInput.value.toLowerCase();
 
         // 검색어로 카드 필터링
-        cards.forEach(card => {
-          const title = card.querySelector('h4').textContent.toLowerCase();
-          const content = card.querySelector('p').textContent.toLowerCase();
+        cards.forEach((card) => {
+          const title = card.querySelector("h4").textContent.toLowerCase();
+          const content = card.querySelector("p").textContent.toLowerCase();
 
           if (title.includes(searchTerm) || content.includes(searchTerm)) {
-            card.style.display = '';
+            card.style.display = "";
           } else {
-            card.style.display = 'none';
+            card.style.display = "none";
           }
         });
 
         // 태그 버튼 초기화
-        tagButtons.forEach(btn => {
-          btn.classList.remove('active');
+        tagButtons.forEach((btn) => {
+          btn.classList.remove("active");
         });
 
         // '전체' 버튼 활성화
-        const allButton = news.querySelector('.tag-container a[data-tag="all"]');
+        const allButton = news.querySelector(
+          '.tag-container a[data-tag="all"]'
+        );
         if (allButton) {
-          allButton.classList.add('active');
+          allButton.classList.add("active");
         }
       });
     }
 
     // 정렬 옵션
-    const sortButtons = news.querySelectorAll('.options button');
+    const sortButtons = news.querySelectorAll(".options button");
 
-    sortButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const sortBy = button.getAttribute('data-sort');
-        const sortOrder = button.getAttribute('data-order');
+    sortButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const sortBy = button.getAttribute("data-sort");
+        const sortOrder = button.getAttribute("data-order");
 
         // 카드 배열 변환
         const cardsArray = Array.from(cards);
@@ -90,15 +92,15 @@ function initNewsSection() {
         cardsArray.sort((a, b) => {
           let valueA, valueB;
 
-          if (sortBy === 'date') {
-            valueA = new Date(a.querySelector('time').getAttribute('datetime'));
-            valueB = new Date(b.querySelector('time').getAttribute('datetime'));
-          } else if (sortBy === 'title') {
-            valueA = a.querySelector('h4').textContent;
-            valueB = b.querySelector('h4').textContent;
+          if (sortBy === "date") {
+            valueA = new Date(a.querySelector("time").getAttribute("datetime"));
+            valueB = new Date(b.querySelector("time").getAttribute("datetime"));
+          } else if (sortBy === "title") {
+            valueA = a.querySelector("h4").textContent;
+            valueB = b.querySelector("h4").textContent;
           }
 
-          if (sortOrder === 'asc') {
+          if (sortOrder === "asc") {
             return valueA > valueB ? 1 : -1;
           } else {
             return valueA < valueB ? 1 : -1;
@@ -106,8 +108,8 @@ function initNewsSection() {
         });
 
         // 정렬된 요소 재배치
-        const container = news.querySelector('.cards');
-        cardsArray.forEach(card => {
+        const container = news.querySelector(".cards");
+        cardsArray.forEach((card) => {
           container.appendChild(card);
         });
       });
@@ -116,7 +118,7 @@ function initNewsSection() {
 }
 
 // 페이지 로드 시 초기화
-document.addEventListener('DOMContentLoaded', initNewsSection);
+document.addEventListener("DOMContentLoaded", initNewsSection);
 
 // 외부에서 접근 가능하도록 노출
-window.initNewsSection = initNewsSection; 
+window.initNewsSection = initNewsSection;
