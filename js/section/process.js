@@ -1,16 +1,16 @@
 /**
- * 프로세스 섹션 스크립트
+ * process 섹션 스크립트
  */
 
-// 프로세스 섹션 초기화
+// process 섹션 초기화
 function initProcessSection() {
   console.log("[Section] process section initialized");
 
-  // 프로세스 섹션 요소 찾기
+  // process 섹션 요소 찾기
   const processSections = document.querySelectorAll(".process");
 
   processSections.forEach((process) => {
-    // 프로세스 단계 요소
+    // process 단계 요소
     const steps = process.querySelectorAll(".process-step");
 
     // 스크롤 시 단계별 애니메이션
@@ -33,7 +33,7 @@ function initProcessSection() {
       observer.observe(step);
     });
 
-    // 프로세스 단계 클릭 상호작용
+    // process 단계 클릭 상호작용
     steps.forEach((step) => {
       step.addEventListener("click", () => {
         // 이미 활성화된 단계인 경우 상세 정보 토글

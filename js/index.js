@@ -43,7 +43,7 @@ import "./section/intro.js"; /* 인트로 섹션 */
 import "./section/contents.js"; /* 콘텐츠 섹션 */
 import "./section/description.js"; /* 설명 섹션 */
 import "./section/feature.js"; /* 특징 섹션 */
-import "./section/process.js"; /* 프로세스 섹션 */
+import "./section/process.js"; /* process 섹션 */
 import "./section/utilization.js"; /* 활용 섹션 */
 import "./section/effect.js"; /* 효과 섹션 */
 import "./section/client.js"; /* 클라이언트 섹션 */
