@@ -168,10 +168,29 @@ function setupLanguageDropdown() {
         }
       }
 
-      // 페이지 이동
+      // 페이지 이동 (내부/외부 경로 모두 지원 - 현재 탭에서 열기)
       if (url) {
         console.log("[LanguageDropdown] page navigation:", url);
-        window.location.href = url;
+
+        // 외부 링크 확인 (https:// 또는 http://로 시작하는 경우)
+        const isExternalLink =
+          url.startsWith("http://") || url.startsWith("https://");
+
+        if (isExternalLink) {
+          console.log(
+            "[LanguageDropdown] external link detected, navigating to:",
+            url
+          );
+          // 외부 링크도 현재 탭에서 열기 (_self 동작)
+          window.location.assign(url);
+        } else {
+          console.log(
+            "[LanguageDropdown] internal link detected, navigating to:",
+            url
+          );
+          // 내부 링크의 경우 일반적인 이동
+          window.location.href = url;
+        }
       }
       return;
     }
