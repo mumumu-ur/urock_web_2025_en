@@ -10,7 +10,7 @@ export const PAGE_CONFIG = {
   defaultTitle: "UROCK - Digital forensics expert company",
   defaultDescription:
     "Company specializing in digital forensic solutions and services",
-  contactEmail: "hello@urock.kr",
+  contactEmail: "hello@urock_homepage_bucket",
   contactPhone: "070-8670-9016",
 };
 
